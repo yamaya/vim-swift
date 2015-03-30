@@ -31,10 +31,7 @@ syntax match swiftNumber "\v<0b[01]+>"
 syntax match swiftNumber "\v<0o\o+>"
 
 " BOOLs
-syntax keyword swiftBoolean
-      \ true
-      \ false
-
+syntax keyword swiftBoolean true false
 
 " Operators
 syntax match swiftOperator "\v\~"
@@ -56,7 +53,6 @@ syntax match swiftOperator "\v\?\?"
 " Methods/Functions
 syntax match swiftMethod "\(\.\)\@<=\w\+\((\)\@="
 
-
 " Keywords {{{
 syntax keyword swiftKeywords
       \ as
@@ -71,6 +67,7 @@ syntax keyword swiftKeywords
       \ do
       \ dynamic
       \ else
+			\ enum
       \ extension
       \ fallthrough
       \ final
@@ -102,6 +99,7 @@ syntax keyword swiftKeywords
       \ self
       \ set
       \ static
+			\ struct
       \ subscript
       \ super
       \ switch
@@ -116,26 +114,7 @@ syntax keyword swiftKeywords
       \ willSet
 " }}}
 
-syntax keyword swiftAttributes
-      \ @assignment
-      \ @autoclosure
-      \ @availability
-      \ @exported
-      \ @IBAction
-      \ @IBDesignable
-      \ @IBInspectable
-      \ @IBOutlet
-      \ @noreturn
-      \ @NSApplicationMain
-      \ @NSCopying
-      \ @NSManaged
-      \ @objc
-      \ @UIApplicationMain
-
-syntax keyword swiftStructure
-      \ struct
-      \ enum
-
+syntax match swiftAttributes "\v\@(assignment|autoclosure|availability|exported|IBAction|IBDesignable|IBInspectable|IBOutlet|noreturn|NSApplicationMain|NSCopying|NSManaged|objc|UIApplicationMain)"
 syntax region swiftTypeWrapper start="\v:\s*" end="\v[^\w]" contains=swiftString,swiftBoolean,swiftNumber,swiftType,swiftGenericsWrapper transparent oneline
 syntax region swiftGenericsWrapper start="\v\<" end="\v\>" contains=swiftType transparent oneline
 " syntax region swiftLiteralWrapper start="\v\=\s*" skip="\v[^\[\]]\(\)" end="\v(\[\]|\(\))" contains=swiftType transparent oneline
@@ -172,8 +151,8 @@ highlight default link swiftBoolean Boolean
 highlight default link swiftOperator Operator
 highlight default link swiftKeywords Keyword
 highlight default link swiftAttributes PreProc
-highlight default link swiftStructure Structure
-highlight default link swiftType Type
+"highlight default link swiftStructure Structure
+"highlight default link swiftType Type
 highlight default link swiftImports Include
 highlight default link swiftPreprocessor PreProc
 highlight default link swiftMethod Function
