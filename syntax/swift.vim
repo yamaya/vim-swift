@@ -115,12 +115,13 @@ syntax keyword swiftKeywords
 " }}}
 
 syntax match swiftAttributes "\v\@(assignment|autoclosure|availability|exported|IBAction|IBDesignable|IBInspectable|IBOutlet|noreturn|NSApplicationMain|NSCopying|NSManaged|objc|UIApplicationMain)"
-syntax region swiftTypeWrapper start="\v:\s*" end="\v[^\w]" contains=swiftString,swiftBoolean,swiftNumber,swiftType,swiftGenericsWrapper transparent oneline
-syntax region swiftGenericsWrapper start="\v\<" end="\v\>" contains=swiftType transparent oneline
+"syntax region swiftTypeWrapper start="\v:\s*" end="\v[^\w]" contains=swiftString,swiftBoolean,swiftNumber,swiftType,swiftGenericsWrapper transparent oneline
+"syntax region swiftGenericsWrapper start="\v\<" end="\v\>" contains=swiftType transparent oneline
 " syntax region swiftLiteralWrapper start="\v\=\s*" skip="\v[^\[\]]\(\)" end="\v(\[\]|\(\))" contains=swiftType transparent oneline
-syntax region swiftReturnWrapper start="\v-\>\s*" end="\v(\{|$)" contains=swiftType transparent oneline
-syntax match swiftType "\v\u\w*" contained containedin=swiftGenericsWrapper,swiftTypeWrapper,swiftLiteralWrapper,swiftGenericsWrapper
+"syntax region swiftReturnWrapper start="\v-\>\s*" end="\v(\{|$)" contains=swiftType transparent oneline
+"syntax match swiftType "\v\u\w*" contained containedin=swiftGenericsWrapper,swiftTypeWrapper,swiftLiteralWrapper,swiftGenericsWrapper
 
+syntax keyword swiftType Bool AnyObject String Array Dictionary
 syntax keyword swiftImports import
 
 
@@ -152,7 +153,7 @@ highlight default link swiftOperator Operator
 highlight default link swiftKeywords Keyword
 highlight default link swiftAttributes PreProc
 "highlight default link swiftStructure Structure
-"highlight default link swiftType Type
+highlight default link swiftType Type
 highlight default link swiftImports Include
 highlight default link swiftPreprocessor PreProc
 highlight default link swiftMethod Function
