@@ -116,26 +116,8 @@ syntax keyword swiftKeywords
       \ willSet
 " }}}
 
-syntax keyword swiftAttributes
-      \ @assignment
-      \ @autoclosure
-      \ @availability
-      \ @exported
-      \ @IBAction
-      \ @IBDesignable
-      \ @IBInspectable
-      \ @IBOutlet
-      \ @noreturn
-      \ @NSApplicationMain
-      \ @NSCopying
-      \ @NSManaged
-      \ @objc
-      \ @UIApplicationMain
-
-syntax keyword swiftStructure
-      \ struct
-      \ enum
-
+syntax match swiftAttributes '\v\@%(assignment|autoclosure|availability|exported|IBAction|IBDesignable|IBInspectable|IBOutlet|noreturn|NSApplicationMain|NSCopying|NSManaged|objc|UIApplicationMain)'
+syntax keyword swiftStructure struct enum
 syntax region swiftTypeWrapper start="\v:\s*" end="\v[^\w]" contains=swiftString,swiftBoolean,swiftNumber,swiftType,swiftGenericsWrapper transparent oneline
 syntax region swiftGenericsWrapper start="\v\<" end="\v\>" contains=swiftType transparent oneline
 " syntax region swiftLiteralWrapper start="\v\=\s*" skip="\v[^\[\]]\(\)" end="\v(\[\]|\(\))" contains=swiftType transparent oneline
@@ -143,20 +125,14 @@ syntax region swiftReturnWrapper start="\v-\>\s*" end="\v(\{|$)" contains=swiftT
 syntax match swiftType "\v\u\w*" contained containedin=swiftGenericsWrapper,swiftTypeWrapper,swiftLiteralWrapper,swiftGenericsWrapper
 
 syntax keyword swiftImports import
-
-
-" 'preprocesor' stuff
-syntax keyword swiftPreprocessor
-      \ #if
-      \ #elseif
-      \ #else
-      \ #endif
-
+syntax match swiftPreprocessor '\v\#\%(if|elseif|else|endif)'
 
 " Comment patterns
 syntax match swiftComment "\v\/\/.*$" contains=swiftTodos,swiftMarker,@Spell oneline
 syntax region swiftComment start="/\*" end="\*/" contains=swiftTodos,swiftMarker,swiftComment,@Spell fold
 
+" Standard Class
+syntax keyword swiftClass Any AnyObject 
 
 " Set highlights
 highlight default link swiftTodos Todo
@@ -173,7 +149,7 @@ highlight default link swiftOperator Operator
 highlight default link swiftKeywords Keyword
 highlight default link swiftAttributes PreProc
 highlight default link swiftStructure Structure
-highlight default link swiftType Type
+highlight default link swiftClass Type
 highlight default link swiftImports Include
 highlight default link swiftPreprocessor PreProc
 highlight default link swiftMethod Function
