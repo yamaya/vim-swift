@@ -121,7 +121,7 @@ syntax match swiftAttributes "\v\@(assignment|autoclosure|availability|exported|
 "syntax region swiftReturnWrapper start="\v-\>\s*" end="\v(\{|$)" contains=swiftType transparent oneline
 "syntax match swiftType "\v\u\w*" contained containedin=swiftGenericsWrapper,swiftTypeWrapper,swiftLiteralWrapper,swiftGenericsWrapper
 
-syntax keyword swiftType Bool AnyObject String Array Dictionary
+syntax keyword swiftType Bool String Array Dictionary Int Character Range
 syntax keyword swiftImports import
 
 " Comment patterns
@@ -129,7 +129,10 @@ syntax match swiftComment "\v\/\/.*$" contains=swiftTodos,swiftMarker,@Spell one
 syntax region swiftComment start="/\*" end="\*/" contains=swiftTodos,swiftMarker,swiftComment,@Spell fold
 
 " Standard Class
-syntax keyword swiftClass Any AnyObject 
+syntax keyword swiftClass Any AnyObject Optional
+
+" Standard Function
+syntax keyword swiftFunction println dump
 
 " Conditional Compile Directive
 syn region	swiftPreCondit	start="^\s*#\s*\(if\|ifdef\|ifndef\|elseif\)\>" skip="\\$" end="$" keepend contains=swiftComment,swiftCommentL
@@ -161,8 +164,9 @@ highlight default link swiftBoolean Boolean
 highlight default link swiftOperator Operator
 highlight default link swiftKeywords Keyword
 highlight default link swiftAttributes PreProc
-"highlight default link swiftStructure Structure
+highlight default link swiftFunction Function
 highlight default link swiftType Type
+highlight default link swiftClass Type
 highlight default link swiftImports Include
 highlight default link swiftMethod Function
 
