@@ -123,7 +123,6 @@ syntax match swiftAttributes "\v\@(assignment|autoclosure|availability|exported|
 
 syntax keyword swiftType Bool AnyObject String Array Dictionary
 syntax keyword swiftImports import
-syntax match swiftPreprocessor '\v\#\%(if|elseif|else|endif)'
 
 " Comment patterns
 syntax match swiftComment "\v\/\/.*$" contains=swiftTodos,swiftMarker,@Spell oneline
@@ -131,6 +130,22 @@ syntax region swiftComment start="/\*" end="\*/" contains=swiftTodos,swiftMarker
 
 " Standard Class
 syntax keyword swiftClass Any AnyObject 
+
+" Conditional Compile Directive
+syn region	swiftPreCondit	start="^\s*#\s*\(if\|ifdef\|ifndef\|elseif\)\>" skip="\\$" end="$" keepend contains=swiftComment,swiftCommentL
+syn match	  swiftPreConditMatch display "^\s*\(%:\|#\)\s*\(else\|endif\)\>"
+syn cluster	swfitOutInGroup	contains=swfitInIf,swfitInElse,swfitInElse2,swfitOutIf,swfitOutIf2,swfitOutElse,swfitInSkip,swfitOutSkip
+syn region	swfitOutWrapper	start="^\s*\(%:\|#\)\s*if\s\+0\+\s*\($\|//\|/\*\|&\)" end=".\@=\|$" contains=swfitOutIf,swfitOutElse,@NoSpell fold
+syn region	swfitOutIf	contained start="0\+" matchgroup=swfitOutWrapper end="^\s*\(%:\|#\)\s*endif\>" contains=swfitOutIf2,swfitOutElse
+syn region	swfitOutIf2	contained matchgroup=swfitOutWrapper start="0\+" end="^\s*\(%:\|#\)\s*\(else\>\|elif\s\+\(0\+\s*\($\|//\|/\*\|&\)\)\@!\|endif\>\)"me=s-1 contains=cSpaceError,swfitOutSkip,@Spell
+syn region	swfitOutElse	contained matchgroup=swfitOutWrapper start="^\s*\(%:\|#\)\s*\(else\|elif\)" end="^\s*\(%:\|#\)\s*endif\>"me=s-1 contains=TOP,cPreCondit
+syn region	swfitInWrapper	start="^\s*\(%:\|#\)\s*if\s\+0*[1-9]\d*\s*\($\|//\|/\*\||\)" end=".\@=\|$" contains=swfitInIf,swfitInElse fold
+syn region	swfitInIf	contained matchgroup=swfitInWrapper start="\d\+" end="^\s*\(%:\|#\)\s*endif\>" contains=TOP,cPreCondit
+syn region	swfitInElse	contained start="^\s*\(%:\|#\)\s*\(else\>\|elif\s\+\(0*[1-9]\d*\s*\($\|//\|/\*\||\)\)\@!\)" end=".\@=\|$" containedin=swfitInIf contains=swfitInElse2 fold
+syn region	swfitInElse2	contained matchgroup=swfitInWrapper start="^\s*\(%:\|#\)\s*\(else\|elif\)\([^/]\|/[^/*]\)*" end="^\s*\(%:\|#\)\s*endif\>"me=s-1 contains=cSpaceError,swfitOutSkip,@Spell
+syn region	swfitOutSkip	contained start="^\s*\(%:\|#\)\s*\(if\>\|ifdef\>\|ifndef\>\)" skip="\\$" end="^\s*\(%:\|#\)\s*endif\>" contains=cSpaceError,swfitOutSkip
+syn region	swfitInSkip	contained matchgroup=swfitInWrapper start="^\s*\(%:\|#\)\s*\(if\s\+\(\d\+\s*\($\|//\|/\*\||\|&\)\)\@!\|ifdef\>\|ifndef\>\)" skip="\\$" end="^\s*\(%:\|#\)\s*endif\>" containedin=swfitOutElse,swfitInIf,swfitInSkip contains=TOP,cPreProc
+
 
 " Set highlights
 highlight default link swiftTodos Todo
@@ -149,7 +164,9 @@ highlight default link swiftAttributes PreProc
 "highlight default link swiftStructure Structure
 highlight default link swiftType Type
 highlight default link swiftImports Include
-highlight default link swiftPreprocessor PreProc
 highlight default link swiftMethod Function
+
+highlight default link swiftPreCondit				PreCondit
+highlight default link swiftPreConditMatch	PreCondit
 
 let b:current_syntax = 'swift'
