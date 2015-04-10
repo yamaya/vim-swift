@@ -121,7 +121,7 @@ syntax match swiftAttributes "\v\@(assignment|autoclosure|availability|exported|
 "syntax region swiftReturnWrapper start="\v-\>\s*" end="\v(\{|$)" contains=swiftType transparent oneline
 "syntax match swiftType "\v\u\w*" contained containedin=swiftGenericsWrapper,swiftTypeWrapper,swiftLiteralWrapper,swiftGenericsWrapper
 
-syntax keyword swiftType Bool String Array Dictionary Int Character Range
+syntax keyword swiftType Bool String Array Dictionary Int Character Range Void
 syntax keyword swiftImports import
 
 " Comment patterns
