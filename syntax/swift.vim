@@ -51,7 +51,7 @@ syntax match swiftOperator "\v\>"
 syntax match swiftOperator "\v\?\?"
 
 " Methods/Functions
-syntax match swiftMethod "\(\.\)\@<=\w\+\((\)\@="
+"syntax match swiftMethod "\(\.\)\@<=\w\+\((\)\@="
 
 " Keywords {{{
 syntax keyword swiftKeywords
@@ -168,7 +168,7 @@ highlight default link swiftFunction Function
 highlight default link swiftType Type
 highlight default link swiftClass Type
 highlight default link swiftImports Include
-highlight default link swiftMethod Function
+"highlight default link swiftMethod Function
 
 highlight default link swiftPreCondit				PreCondit
 highlight default link swiftPreConditMatch	PreCondit
