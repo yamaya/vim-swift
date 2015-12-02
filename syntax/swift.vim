@@ -84,6 +84,7 @@ syntax keyword swiftKeywords
       \ is
       \ lazy
       \ let
+      \ guard
       \ mutating
       \ nil
       \ operator
