@@ -65,6 +65,7 @@ syntax keyword swiftKeywords
       \ deinit
       \ didSet
       \ do
+			\ catch
       \ dynamic
       \ else
 			\ enum
