@@ -7,14 +7,16 @@
 if exists('b:current_syntax') && b:current_syntax == 'swift'
   finish
 endif
+let s:cpo_save = &cpo
+set cpo&vim
 
 " Comments
 " Shebang
-syntax match swiftShebang "\v#!.*$"
+syntax match swiftShebang display "\v#!.*$"
 
 " Comment contained keywords
-syntax keyword swiftTodos contained TODO XXX FIXME NOTE
-syntax keyword swiftMarker contained MARK
+syntax keyword swiftTodos display contained TODO XXX FIXME NOTE
+syntax keyword swiftMarker display contained MARK
 
 " Literals
 " Strings
@@ -23,32 +25,32 @@ syntax region swiftInterpolatedWrapper start="\v\\\(\s*" end="\v\s*\)" contained
 syntax match swiftInterpolatedString "\v\w+(\(\))?" contained containedin=swiftInterpolatedWrapper
 
 " Numbers
-syntax match swiftNumber "\v<\d+>"
-syntax match swiftNumber "\v<\d+\.\d+>"
-syntax match swiftNumber "\v<\d*\.?\d+([Ee]-?)?\d+>"
-syntax match swiftNumber "\v<0x\x+([Pp]-?)?\x+>"
-syntax match swiftNumber "\v<0b[01]+>"
-syntax match swiftNumber "\v<0o\o+>"
+syntax match swiftNumber display "\v<\d+>"
+syntax match swiftNumber display "\v<\d+\.\d+>"
+syntax match swiftNumber display "\v<\d*\.?\d+([Ee]-?)?\d+>"
+syntax match swiftNumber display "\v<0x\x+([Pp]-?)?\x+>"
+syntax match swiftNumber display "\v<0b[01]+>"
+syntax match swiftNumber display "\v<0o\o+>"
 
 " BOOLs
-syntax keyword swiftBoolean true false
+syntax keyword swiftBoolean display true false
 
 " Operators
-syntax match swiftOperator "\v\~"
-syntax match swiftOperator "\v\s+!"
-syntax match swiftOperator "\v\%"
-syntax match swiftOperator "\v\^"
-syntax match swiftOperator "\v\&"
-syntax match swiftOperator "\v\*"
-syntax match swiftOperator "\v-"
-syntax match swiftOperator "\v\+"
-syntax match swiftOperator "\v\="
-syntax match swiftOperator "\v\|"
-syntax match swiftOperator "\v\/"
-syntax match swiftOperator "\v\."
-syntax match swiftOperator "\v\<"
-syntax match swiftOperator "\v\>"
-syntax match swiftOperator "\v\?\?"
+syntax match swiftOperator display "\v\~"
+syntax match swiftOperator display "\v\s+!"
+syntax match swiftOperator display "\v\%"
+syntax match swiftOperator display "\v\^"
+syntax match swiftOperator display "\v\&"
+syntax match swiftOperator display "\v\*"
+syntax match swiftOperator display "\v-"
+syntax match swiftOperator display "\v\+"
+syntax match swiftOperator display "\v\="
+syntax match swiftOperator display "\v\|"
+syntax match swiftOperator display "\v\/"
+syntax match swiftOperator display "\v\."
+syntax match swiftOperator display "\v\<"
+syntax match swiftOperator display "\v\>"
+syntax match swiftOperator display "\v\?\?"
 
 " Methods/Functions
 "syntax match swiftMethod "\(\.\)\@<=\w\+\((\)\@="
@@ -105,6 +107,7 @@ syntax keyword swiftKeywords
       \ subscript
       \ super
       \ switch
+			\ try
       \ typealias
       \ unowned
       \ unowned(safe)
@@ -116,7 +119,7 @@ syntax keyword swiftKeywords
       \ willSet
 " }}}
 
-syntax match swiftAttributes "\v\@(assignment|autoclosure|availability|exported|IBAction|IBDesignable|IBInspectable|IBOutlet|noreturn|NSApplicationMain|NSCopying|NSManaged|objc|UIApplicationMain)"
+syntax match swiftAttributes display "\v\@(assignment|autoclosure|availability|exported|IBAction|IBDesignable|IBInspectable|IBOutlet|noreturn|NSApplicationMain|NSCopying|NSManaged|objc|UIApplicationMain)"
 "syntax region swiftTypeWrapper start="\v:\s*" end="\v[^\w]" contains=swiftString,swiftBoolean,swiftNumber,swiftType,swiftGenericsWrapper transparent oneline
 "syntax region swiftGenericsWrapper start="\v\<" end="\v\>" contains=swiftType transparent oneline
 " syntax region swiftLiteralWrapper start="\v\=\s*" skip="\v[^\[\]]\(\)" end="\v(\[\]|\(\))" contains=swiftType transparent oneline
@@ -127,30 +130,29 @@ syntax keyword swiftType Bool String Array Dictionary Int Character Range Void D
 syntax keyword swiftImports import
 
 " Comment patterns
-syntax match swiftComment "\v\/\/.*$" contains=swiftTodos,swiftMarker,@Spell oneline
+syntax match swiftComment display "\v\/\/.*$" contains=swiftTodos,swiftMarker,@Spell oneline
 syntax region swiftComment start="/\*" end="\*/" contains=swiftTodos,swiftMarker,swiftComment,@Spell fold
 
 " Standard Class
 syntax keyword swiftClass Any AnyObject Optional
 
 " Standard Function
-syntax keyword swiftFunction println dump
+syntax keyword swiftFunction println print dump
 
 " Conditional Compile Directive
-syn region	swiftPreCondit	start="^\s*#\s*\(if\|ifdef\|ifndef\|elseif\)\>" skip="\\$" end="$" keepend contains=swiftComment,swiftCommentL
-syn match	  swiftPreConditMatch display "^\s*\(%:\|#\)\s*\(else\|endif\)\>"
-syn cluster	swfitOutInGroup	contains=swfitInIf,swfitInElse,swfitInElse2,swfitOutIf,swfitOutIf2,swfitOutElse,swfitInSkip,swfitOutSkip
-syn region	swfitOutWrapper	start="^\s*\(%:\|#\)\s*if\s\+0\+\s*\($\|//\|/\*\|&\)" end=".\@=\|$" contains=swfitOutIf,swfitOutElse,@NoSpell fold
-syn region	swfitOutIf	contained start="0\+" matchgroup=swfitOutWrapper end="^\s*\(%:\|#\)\s*endif\>" contains=swfitOutIf2,swfitOutElse
-syn region	swfitOutIf2	contained matchgroup=swfitOutWrapper start="0\+" end="^\s*\(%:\|#\)\s*\(else\>\|elif\s\+\(0\+\s*\($\|//\|/\*\|&\)\)\@!\|endif\>\)"me=s-1 contains=cSpaceError,swfitOutSkip,@Spell
-syn region	swfitOutElse	contained matchgroup=swfitOutWrapper start="^\s*\(%:\|#\)\s*\(else\|elif\)" end="^\s*\(%:\|#\)\s*endif\>"me=s-1 contains=TOP,cPreCondit
-syn region	swfitInWrapper	start="^\s*\(%:\|#\)\s*if\s\+0*[1-9]\d*\s*\($\|//\|/\*\||\)" end=".\@=\|$" contains=swfitInIf,swfitInElse fold
-syn region	swfitInIf	contained matchgroup=swfitInWrapper start="\d\+" end="^\s*\(%:\|#\)\s*endif\>" contains=TOP,cPreCondit
-syn region	swfitInElse	contained start="^\s*\(%:\|#\)\s*\(else\>\|elif\s\+\(0*[1-9]\d*\s*\($\|//\|/\*\||\)\)\@!\)" end=".\@=\|$" containedin=swfitInIf contains=swfitInElse2 fold
-syn region	swfitInElse2	contained matchgroup=swfitInWrapper start="^\s*\(%:\|#\)\s*\(else\|elif\)\([^/]\|/[^/*]\)*" end="^\s*\(%:\|#\)\s*endif\>"me=s-1 contains=cSpaceError,swfitOutSkip,@Spell
-syn region	swfitOutSkip	contained start="^\s*\(%:\|#\)\s*\(if\>\|ifdef\>\|ifndef\>\)" skip="\\$" end="^\s*\(%:\|#\)\s*endif\>" contains=cSpaceError,swfitOutSkip
-syn region	swfitInSkip	contained matchgroup=swfitInWrapper start="^\s*\(%:\|#\)\s*\(if\s\+\(\d\+\s*\($\|//\|/\*\||\|&\)\)\@!\|ifdef\>\|ifndef\>\)" skip="\\$" end="^\s*\(%:\|#\)\s*endif\>" containedin=swfitOutElse,swfitInIf,swfitInSkip contains=TOP,cPreProc
-
+"syn region	swiftPreCondit	start="^\s*#\(if\|ifdef\|ifndef\|elseif\)\>" skip="\\$" end="$" keepend contains=swiftComment,swiftCommentL
+"syn match	  swiftPreConditMatch display "^\s*#\s*\(else\|endif\)\>"
+"syn cluster	swfitOutInGroup	contains=swfitInIf,swfitInElse,swfitInElse2,swfitOutIf,swfitOutIf2,swfitOutElse,swfitInSkip,swfitOutSkip
+"syn region	swfitOutWrapper	start="^\s*#\s*if\s\+0\+\s*\($\|//\|/\*\|&\)" end=".\@=\|$" contains=swfitOutIf,swfitOutElse,@NoSpell fold
+"syn region	swfitOutIf	contained start="0\+" matchgroup=swfitOutWrapper end="^\s*#endif\>" contains=swfitOutIf2,swfitOutElse
+"syn region	swfitOutIf2	contained matchgroup=swfitOutWrapper start="0\+" end="^\s*#\(else\>\|elif\s\+\(0\+\s*\($\|//\|/\*\|&\)\)\@!\|endif\>\)"me=s-1 contains=cSpaceError,swfitOutSkip,@Spell
+"syn region	swfitOutElse	contained matchgroup=swfitOutWrapper start="^\s*#\(else\|elif\)" end="^\s*#\s*endif\>"me=s-1 contains=TOP,cPreCondit
+"syn region	swfitInWrapper	start="^\s*#if\s\+0*[1-9]\d*\s*\($\|//\|/\*\||\)" end=".\@=\|$" contains=swfitInIf,swfitInElse fold
+"syn region	swfitInIf	contained matchgroup=swfitInWrapper start="\d\+" end="^\s*#endif\>" contains=TOP,cPreCondit
+"syn region	swfitInElse	contained start="^\s*#\(else\>\|elif\s\+\(0*[1-9]\d*\s*\($\|//\|/\*\||\)\)\@!\)" end=".\@=\|$" containedin=swfitInIf contains=swfitInElse2 fold
+"syn region	swfitInElse2	contained matchgroup=swfitInWrapper start="^\s*#\(else\|elif\)\([^/]\|/[^/*]\)*" end="^\s*#endif\>"me=s-1 contains=cSpaceError,swfitOutSkip,@Spell
+"syn region	swfitOutSkip	contained start="^\s*#\(if\>\|ifdef\>\|ifndef\>\)" skip="\\$" end="^\s*#endif\>" contains=cSpaceError,swfitOutSkip
+"syn region	swfitInSkip	contained matchgroup=swfitInWrapper start="^\s*#\(if\s\+\(\d\+\s*\($\|//\|/\*\||\|&\)\)\@!\|ifdef\>\|ifndef\>\)" skip="\\$" end="^\s*#endif\>" containedin=swfitOutElse,swfitInIf,swfitInSkip contains=TOP,cPreProc
 
 " Set highlights
 highlight default link swiftTodos Todo
@@ -172,7 +174,10 @@ highlight default link swiftClass Type
 highlight default link swiftImports Include
 "highlight default link swiftMethod Function
 
-highlight default link swiftPreCondit				PreCondit
-highlight default link swiftPreConditMatch	PreCondit
+"highlight default link swiftPreCondit				PreCondit
+"highlight default link swiftPreConditMatch	PreCondit
 
 let b:current_syntax = 'swift'
+
+let &cpo = s:cpo_save
+unlet s:cpo_save
