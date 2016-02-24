@@ -140,7 +140,8 @@ syntax region swiftComment start="/\*" end="\*/" contains=swiftTodos,swiftMarker
 syntax keyword swiftClass Any AnyObject Optional
 
 " Standard Function
-syntax keyword swiftFunction println print dump
+syntax keyword swiftFunction print dump
+syntax keyword swiftFunction objc_sync_enter objc_sync_exit
 
 " Conditional Compile Directive
 "syn region	swiftPreCondit	start="^\s*#\(if\|ifdef\|ifndef\|elseif\)\>" skip="\\$" end="$" keepend contains=swiftComment,swiftCommentL
