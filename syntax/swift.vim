@@ -12,7 +12,7 @@ set cpo&vim
 
 " Comments
 " Shebang
-syntax match swiftShebang display "\v#!.*$"
+syntax match swiftShebang "\v#!.*$" display
 
 " Comment contained keywords
 syntax keyword swiftTodos display contained TODO XXX FIXME NOTE
@@ -36,28 +36,31 @@ syntax match swiftNumber display "\v<0o\o+>"
 syntax keyword swiftBoolean display true false
 
 " Operators
-syntax match swiftOperator display "\v\~"
-syntax match swiftOperator display "\v\s+!"
-syntax match swiftOperator display "\v\%"
-syntax match swiftOperator display "\v\^"
-syntax match swiftOperator display "\v\&"
-syntax match swiftOperator display "\v\*"
-syntax match swiftOperator display "\v-"
-syntax match swiftOperator display "\v\+"
-syntax match swiftOperator display "\v\="
-syntax match swiftOperator display "\v\|"
-syntax match swiftOperator display "\v\/"
-syntax match swiftOperator display "\v\."
-syntax match swiftOperator display "\v\<"
-syntax match swiftOperator display "\v\>"
-syntax match swiftOperator display "\v\?\?"
+"syntax match swiftOperator display "\v\~"
+"syntax match swiftOperator display "\v\s+!"
+"syntax match swiftOperator display "\v\%"
+"syntax match swiftOperator display "\v\^"
+"syntax match swiftOperator display "\v\&"
+"syntax match swiftOperator display "\v\*"
+"syntax match swiftOperator display "\v-"
+"syntax match swiftOperator display "\v\+"
+"syntax match swiftOperator display "\v\="
+"syntax match swiftOperator display "\v\|"
+"syntax match swiftOperator display "\v\/"
+"syntax match swiftOperator display "\v\."
+"syntax match swiftOperator display "\v\<"
+"syntax match swiftOperator display "\v\>"
+"syntax match swiftOperator display "\v\?\?"
+
+"syntax match swiftOperator "\s!=\_s"ms=s+1,me=e-1 display conceal cchar=≠
+"syntax match swiftOperator "\s->\_s"ms=s+1,me=e-1 display conceal cchar=→
+"syntax match swiftOperator "\sas?\?\_s"ms=s+1,me=e-1 display
 
 " Methods/Functions
 "syntax match swiftMethod "\(\.\)\@<=\w\+\((\)\@="
 
 " Keywords {{{
 syntax keyword swiftKeywords
-      \ as
       \ break
       \ case
       \ class
