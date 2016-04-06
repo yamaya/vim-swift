@@ -122,7 +122,7 @@ syntax keyword swiftKeywords
       \ willSet
 " }}}
 
-syntax match swiftAttributes display "\v\@(assignment|autoclosure|availability|exported|IBAction|IBDesignable|IBInspectable|IBOutlet|noreturn|NSApplicationMain|NSCopying|NSManaged|objc|UIApplicationMain)"
+syntax match swiftAttributes display "\v\@(assignment|autoclosure|availability|exported|IBAction|IBDesignable|IBInspectable|IBOutlet|noreturn|NSApplicationMain|NSCopying|NSManaged|objc|UIApplicationMain|testable)"
 "syntax region swiftTypeWrapper start="\v:\s*" end="\v[^\w]" contains=swiftString,swiftBoolean,swiftNumber,swiftType,swiftGenericsWrapper transparent oneline
 "syntax region swiftGenericsWrapper start="\v\<" end="\v\>" contains=swiftType transparent oneline
 " syntax region swiftLiteralWrapper start="\v\=\s*" skip="\v[^\[\]]\(\)" end="\v(\[\]|\(\))" contains=swiftType transparent oneline
@@ -144,19 +144,19 @@ syntax keyword swiftFunction print dump
 syntax keyword swiftFunction objc_sync_enter objc_sync_exit
 
 " Conditional Compile Directive
-"syn region	swiftPreCondit	start="^\s*#\(if\|ifdef\|ifndef\|elseif\)\>" skip="\\$" end="$" keepend contains=swiftComment,swiftCommentL
-"syn match	  swiftPreConditMatch display "^\s*#\s*\(else\|endif\)\>"
-"syn cluster	swfitOutInGroup	contains=swfitInIf,swfitInElse,swfitInElse2,swfitOutIf,swfitOutIf2,swfitOutElse,swfitInSkip,swfitOutSkip
-"syn region	swfitOutWrapper	start="^\s*#\s*if\s\+0\+\s*\($\|//\|/\*\|&\)" end=".\@=\|$" contains=swfitOutIf,swfitOutElse,@NoSpell fold
-"syn region	swfitOutIf	contained start="0\+" matchgroup=swfitOutWrapper end="^\s*#endif\>" contains=swfitOutIf2,swfitOutElse
-"syn region	swfitOutIf2	contained matchgroup=swfitOutWrapper start="0\+" end="^\s*#\(else\>\|elif\s\+\(0\+\s*\($\|//\|/\*\|&\)\)\@!\|endif\>\)"me=s-1 contains=cSpaceError,swfitOutSkip,@Spell
-"syn region	swfitOutElse	contained matchgroup=swfitOutWrapper start="^\s*#\(else\|elif\)" end="^\s*#\s*endif\>"me=s-1 contains=TOP,cPreCondit
-"syn region	swfitInWrapper	start="^\s*#if\s\+0*[1-9]\d*\s*\($\|//\|/\*\||\)" end=".\@=\|$" contains=swfitInIf,swfitInElse fold
-"syn region	swfitInIf	contained matchgroup=swfitInWrapper start="\d\+" end="^\s*#endif\>" contains=TOP,cPreCondit
-"syn region	swfitInElse	contained start="^\s*#\(else\>\|elif\s\+\(0*[1-9]\d*\s*\($\|//\|/\*\||\)\)\@!\)" end=".\@=\|$" containedin=swfitInIf contains=swfitInElse2 fold
-"syn region	swfitInElse2	contained matchgroup=swfitInWrapper start="^\s*#\(else\|elif\)\([^/]\|/[^/*]\)*" end="^\s*#endif\>"me=s-1 contains=cSpaceError,swfitOutSkip,@Spell
-"syn region	swfitOutSkip	contained start="^\s*#\(if\>\|ifdef\>\|ifndef\>\)" skip="\\$" end="^\s*#endif\>" contains=cSpaceError,swfitOutSkip
-"syn region	swfitInSkip	contained matchgroup=swfitInWrapper start="^\s*#\(if\s\+\(\d\+\s*\($\|//\|/\*\||\|&\)\)\@!\|ifdef\>\|ifndef\>\)" skip="\\$" end="^\s*#endif\>" containedin=swfitOutElse,swfitInIf,swfitInSkip contains=TOP,cPreProc
+syn region	swiftPreCondit	start="^\s*#\(if\|ifdef\|ifndef\|elseif\)\>" skip="\\$" end="$" keepend contains=swiftComment,swiftCommentL
+syn match	  swiftPreConditMatch display "^\s*#\s*\(else\|endif\)\>"
+syn cluster	swfitOutInGroup	contains=swfitInIf,swfitInElse,swfitInElse2,swfitOutIf,swfitOutIf2,swfitOutElse,swfitInSkip,swfitOutSkip
+syn region	swfitOutWrapper	start="^\s*#\s*if\s\+0\+\s*\($\|//\|/\*\|&\)" end=".\@=\|$" contains=swfitOutIf,swfitOutElse,@NoSpell fold
+syn region	swfitOutIf	contained start="0\+" matchgroup=swfitOutWrapper end="^\s*#endif\>" contains=swfitOutIf2,swfitOutElse
+syn region	swfitOutIf2	contained matchgroup=swfitOutWrapper start="0\+" end="^\s*#\(else\>\|elif\s\+\(0\+\s*\($\|//\|/\*\|&\)\)\@!\|endif\>\)"me=s-1 contains=cSpaceError,swfitOutSkip,@Spell
+syn region	swfitOutElse	contained matchgroup=swfitOutWrapper start="^\s*#\(else\|elif\)" end="^\s*#\s*endif\>"me=s-1 contains=TOP,cPreCondit
+syn region	swfitInWrapper	start="^\s*#if\s\+0*[1-9]\d*\s*\($\|//\|/\*\||\)" end=".\@=\|$" contains=swfitInIf,swfitInElse fold
+syn region	swfitInIf	contained matchgroup=swfitInWrapper start="\d\+" end="^\s*#endif\>" contains=TOP,cPreCondit
+syn region	swfitInElse	contained start="^\s*#\(else\>\|elif\s\+\(0*[1-9]\d*\s*\($\|//\|/\*\||\)\)\@!\)" end=".\@=\|$" containedin=swfitInIf contains=swfitInElse2 fold
+syn region	swfitInElse2	contained matchgroup=swfitInWrapper start="^\s*#\(else\|elif\)\([^/]\|/[^/*]\)*" end="^\s*#endif\>"me=s-1 contains=cSpaceError,swfitOutSkip,@Spell
+syn region	swfitOutSkip	contained start="^\s*#\(if\>\|ifdef\>\|ifndef\>\)" skip="\\$" end="^\s*#endif\>" contains=cSpaceError,swfitOutSkip
+syn region	swfitInSkip	contained matchgroup=swfitInWrapper start="^\s*#\(if\s\+\(\d\+\s*\($\|//\|/\*\||\|&\)\)\@!\|ifdef\>\|ifndef\>\)" skip="\\$" end="^\s*#endif\>" containedin=swfitOutElse,swfitInIf,swfitInSkip contains=TOP,cPreProc
 
 " Set highlights
 highlight default link swiftTodos Todo
