@@ -129,15 +129,20 @@ syntax match swiftAttributes display "\v\@(assignment|autoclosure|availability|e
 "syntax region swiftReturnWrapper start="\v-\>\s*" end="\v(\{|$)" contains=swiftType transparent oneline
 "syntax match swiftType "\v\u\w*" contained containedin=swiftGenericsWrapper,swiftTypeWrapper,swiftLiteralWrapper,swiftGenericsWrapper
 
-syntax keyword swiftType Bool String Array Dictionary Int Character Range Void Double
+syntax keyword swiftType Bool String Int Int8 Int16 Int32 Int64 Character Void Double Float
 syntax keyword swiftImports import
 
 " Comment patterns
 syntax match swiftComment display "\v\/\/.*$" contains=swiftTodos,swiftMarker,@Spell oneline
 syntax region swiftComment start="/\*" end="\*/" contains=swiftTodos,swiftMarker,swiftComment,@Spell fold
 
+" Standard Protocol
+syntax keyword swiftProtocol Indexable SequenceType
+
 " Standard Class
-syntax keyword swiftClass Any AnyObject Optional
+syntax keyword swiftStruct Any AnyObject Optional
+syntax keyword swiftStruct Array ArraySlice CollectionOfOne ContiguousArray Dictionary DictionaryLiteral EmptyCollection FlattenBidirectionalCollection FlattenCollection LazyCollection Range Repeat ReverseCollection Set Slice UnsafeBufferPointer
+syntax keyword swiftStruct AnyGenerator AnySequence EnumerateGenerator EnumerateSequence FlattenGenerator FlattenSequence GeneratorOfOne GeneratorSequence IndexingGenerator JoinSequence LazyFilterGenerator
 
 " Standard Function
 syntax keyword swiftFunction print dump
@@ -174,6 +179,8 @@ highlight default link swiftKeywords Keyword
 highlight default link swiftAttributes PreProc
 highlight default link swiftFunction Function
 highlight default link swiftType Type
+highlight default link swiftProtocol Tag
+highlight default link swiftStruct Type
 highlight default link swiftClass Type
 highlight default link swiftImports Include
 "highlight default link swiftMethod Function
