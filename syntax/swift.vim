@@ -25,7 +25,7 @@ syn region swiftInterpolatedWrapper start="\v\\\(\s*" end="\v\s*\)" contained co
 syn match swiftInterpolatedString "\v\w+(\(\))?" contained containedin=swiftInterpolatedWrapper
 
 " Numbers
-syn match swiftNumber display "\v<$\@!\d+>"
+syn match swiftNumber display "\v[+-]?\d+>"
 syn match swiftNumber display "\v<\d+\.\d+>"
 syn match swiftNumber display "\v<\d*\.?\d+([Ee]-?)?\d+>"
 syn match swiftNumber display "\v<0x\x+([Pp]-?)?\x+>"
@@ -53,10 +53,6 @@ syn keyword swiftBoolean display true false
 "syn match swiftOperator display "\v\<"
 "syn match swiftOperator display "\v\>"
 "syn match swiftOperator display "\v\?\?"
-
-"syn match swiftOperator "\s!=\_s"ms=s+1,me=e-1 display conceal cchar=≠
-"syn match swiftOperator "\s->\_s"ms=s+1,me=e-1 display conceal cchar=→
-"syn match swiftOperator "\sas?\?\_s"ms=s+1,me=e-1 display
 
 " Keywords {{{
 syn keyword swiftKeywords
@@ -165,9 +161,12 @@ syn region swiftInSkip contained matchgroup=swiftInWrapper start="^\s*#\(if\s\+\
 syn keyword swiftPreConditFunction os arch
 syn keyword swiftPreConditConstant OSX iOS x86_64 arm arm64 i386
 
+syn match swiftKeywords display '#selector'
+
 " conceal
 hi! default link Conceal Normal
-syn match swiftKeywords display '->' conceal cchar=→
+syn match swiftOperator display '->' conceal cchar=→
+
 
 " Set highlights
 hi default link swiftTodos Todo
